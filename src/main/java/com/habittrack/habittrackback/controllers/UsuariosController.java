@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/users")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*") // Allow frontend to call APIs
+@CrossOrigin(origins = "http://localhost:4200") 
 public class UsuariosController {
 
     private final UsuarioService usuarioService;
 
-    @PostMapping("/registro")
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
             Usuario usuario = usuarioService.register(request);

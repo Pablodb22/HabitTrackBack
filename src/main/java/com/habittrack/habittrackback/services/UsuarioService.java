@@ -5,6 +5,7 @@ import com.habittrack.habittrackback.dtos.RegisterRequest;
 import com.habittrack.habittrackback.models.Usuario;
 import com.habittrack.habittrackback.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Usuario register(RegisterRequest request) {
         if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -22,14 +24,14 @@ public class UsuarioService {
         Usuario usuario = Usuario.builder()
                 .nombre(request.getNombre())
                 .email(request.getEmail())
-                .password(request.getPassword()) // In a real app, hash this password!
+                .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         return usuarioRepository.save(usuario);
     }
 
     public Usuario login(LoginRequest request) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(request.getEmail());
-        if (usuarioOpt.isEmpty() || !usuarioOpt.get().getPassword().equals(request.getPassword())) {
+        if (usuarioOpt.isEmpty() || !passwordEncoder.matches(request.getPassword(), usuarioOpt.get().getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
         return usuarioOpt.get();
