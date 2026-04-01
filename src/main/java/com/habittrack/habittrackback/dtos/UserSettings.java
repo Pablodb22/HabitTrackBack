@@ -7,8 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
+public class UserSettings {
+    private Long id;
     private String nombre;
     private String email;
-    private String password;
+    private String biografia;
+    private String fotoPerfil;
+    private String username;
 }

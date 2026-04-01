@@ -24,4 +24,13 @@ public class Usuario {
 
     @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
+    private String biografia;
+  
+    @Column(nullable = false, name = "fotoperfil")
+    private String fotoPerfil;
+
+    @Column(nullable = false)
+    private String username;
 }

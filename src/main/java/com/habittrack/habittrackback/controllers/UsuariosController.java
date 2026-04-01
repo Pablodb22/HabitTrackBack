@@ -7,6 +7,9 @@ import com.habittrack.habittrackback.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,4 +38,14 @@ public class UsuariosController {
             return ResponseEntity.status(401).body(e.getMessage());
         }
     }
+
+    @GetMapping("/settings/{email:.+}")
+    public ResponseEntity<?> getUserSettings(@PathVariable("email") String email) {
+        try{            
+            return ResponseEntity.ok(usuarioService.getUserSettings(email));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());    
+        }
+    }
+    
 }
