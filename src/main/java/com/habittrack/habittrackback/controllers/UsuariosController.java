@@ -60,4 +60,14 @@ public class UsuariosController {
             return ResponseEntity.badRequest().body(e.getMessage());    
         }
     }
+
+    @DeleteMapping("/remove/{email:.+}")
+    public ResponseEntity<?> deleteUser(@PathVariable("email") String email) {
+        try{
+            usuarioService.deleteUser(email);
+            return ResponseEntity.ok(java.util.Map.of("message", "Usuario eliminado correctamente"));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(java.util.Map.of("error", e.getMessage()));    
+        }
+    }
 }

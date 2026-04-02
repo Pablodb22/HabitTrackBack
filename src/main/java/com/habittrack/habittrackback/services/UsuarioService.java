@@ -64,4 +64,12 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
         return new SettingsRequest(usuario.getNombre(), usuario.getBiografia(), usuario.getFotoPerfil(), usuario.getUsername());
     }
+
+    public void deleteUser(String email) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+        if (usuarioOpt.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        usuarioRepository.delete(usuarioOpt.get());
+    }
 }
