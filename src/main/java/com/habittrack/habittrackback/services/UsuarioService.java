@@ -2,6 +2,7 @@ package com.habittrack.habittrackback.services;
 
 import com.habittrack.habittrackback.dtos.LoginRequest;
 import com.habittrack.habittrackback.dtos.RegisterRequest;
+import com.habittrack.habittrackback.dtos.SettingsRequest;
 import com.habittrack.habittrackback.dtos.UserSettings;
 import com.habittrack.habittrackback.models.Usuario;
 import com.habittrack.habittrackback.repositories.UsuarioRepository;
@@ -48,5 +49,19 @@ public class UsuarioService {
         }
         Usuario usuario = usuarioOpt.get();
         return new UserSettings(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.getBiografia(), usuario.getFotoPerfil(), usuario.getUsername());
+    }
+
+    public SettingsRequest putUserSettings(String email, SettingsRequest settingsRequest) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
+        if (usuarioOpt.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        Usuario usuario = usuarioOpt.get();
+        usuario.setNombre(settingsRequest.getNombre());
+        usuario.setBiografia(settingsRequest.getBiografia());
+        usuario.setFotoPerfil(settingsRequest.getFotoPerfil());
+        usuario.setUsername(settingsRequest.getUsername());
+        usuarioRepository.save(usuario);
+        return new SettingsRequest(usuario.getNombre(), usuario.getBiografia(), usuario.getFotoPerfil(), usuario.getUsername());
     }
 }

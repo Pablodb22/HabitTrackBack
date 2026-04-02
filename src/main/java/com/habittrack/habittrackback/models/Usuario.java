@@ -28,7 +28,7 @@ public class Usuario {
     @Column(nullable = false)
     private String biografia;
   
-    @Column(nullable = false, name = "fotoperfil")
+    @Column(nullable = false, name = "fotoperfil", columnDefinition = "TEXT")
     private String fotoPerfil;
 
     @Column(nullable = false)

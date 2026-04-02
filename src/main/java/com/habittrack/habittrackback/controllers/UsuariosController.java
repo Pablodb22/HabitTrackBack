@@ -2,6 +2,7 @@ package com.habittrack.habittrackback.controllers;
 
 import com.habittrack.habittrackback.dtos.LoginRequest;
 import com.habittrack.habittrackback.dtos.RegisterRequest;
+import com.habittrack.habittrackback.dtos.SettingsRequest;
 import com.habittrack.habittrackback.models.Usuario;
 import com.habittrack.habittrackback.services.UsuarioService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -48,4 +52,12 @@ public class UsuariosController {
         }
     }
     
+    @PutMapping("/settings/{email:.+}")
+    public ResponseEntity<?> putUserSettings(@PathVariable("email") String email, @RequestBody SettingsRequest settingsRequest) {
+        try{            
+            return ResponseEntity.ok(usuarioService.putUserSettings(email, settingsRequest));
+        }catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());    
+        }
+    }
 }
