@@ -1,6 +1,9 @@
 package com.habittrack.habittrackback.services;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.habittrack.habittrackback.models.Habito;
@@ -21,8 +24,13 @@ public class HabitoService {
         Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         habito.setUsuario_id(usuario.getId());
-        
+
         return habitoRepository.save(habito);
+    }
+
+    public List<Habito> getHabitsByUser(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        return habitoRepository.findByUsuario_id(usuario.getId());
     }
     
 }
