@@ -34,6 +34,8 @@ public class Habito {
     private String categoria;
    
     private String fecha_creacion;
+
+    private boolean completo;
     
    
     

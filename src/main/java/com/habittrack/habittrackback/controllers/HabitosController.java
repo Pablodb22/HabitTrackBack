@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +34,15 @@ public class HabitosController {
     @GetMapping("/user/{email}")
     public ResponseEntity<List<Habito>> getHabitsByUser(@PathVariable("email") String email) {
         return ResponseEntity.ok(habitoService.getHabitsByUser(email));
+    }
+
+    @PutMapping("/complete/{id}")
+    public ResponseEntity<Habito> completarHabito(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(habitoService.completarHabito(id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Habito> eliminarHabito(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(habitoService.eliminarHabito(id));
     }
 }

@@ -32,5 +32,17 @@ public class HabitoService {
         Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         return habitoRepository.findByUsuario_id(usuario.getId());
     }
+
+    public Habito completarHabito(Long id) {
+        Habito habito = habitoRepository.findById(id).orElseThrow(() -> new RuntimeException("Habito no encontrado"));
+        habito.setCompleto(true);
+        return habitoRepository.save(habito);
+    }
+
+    public Habito eliminarHabito(Long id) {
+        Habito habito = habitoRepository.findById(id).orElseThrow(() -> new RuntimeException("Habito no encontrado"));
+        habitoRepository.delete(habito);
+        return habito;
+    }
     
 }
