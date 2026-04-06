@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SettingsRequest {
-    
-    private String nombre;    
+public class UserSettingsDTO {
+    private Long id;
+    private String nombre;
+    private String email;
     private String biografia;
     private String fotoPerfil;
     private String username;
-    
 }

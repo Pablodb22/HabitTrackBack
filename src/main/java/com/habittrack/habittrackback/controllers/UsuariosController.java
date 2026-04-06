@@ -1,10 +1,12 @@
 package com.habittrack.habittrackback.controllers;
 
-import com.habittrack.habittrackback.dtos.LoginRequest;
-import com.habittrack.habittrackback.dtos.RegisterRequest;
-import com.habittrack.habittrackback.dtos.SettingsRequest;
+import com.habittrack.habittrackback.dtos.LoginRequestDTO;
+import com.habittrack.habittrackback.dtos.RegisterRequestDTO;
+import com.habittrack.habittrackback.dtos.SettingsRequestDTO;
 import com.habittrack.habittrackback.models.Usuario;
 import com.habittrack.habittrackback.services.UsuarioService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +26,7 @@ public class UsuariosController {
     private final UsuarioService usuarioService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequestDTO request) {
         try {
             Usuario usuario = usuarioService.register(request);
             return ResponseEntity.ok(usuario);
@@ -34,7 +36,7 @@ public class UsuariosController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDTO request) {
         try {
             Usuario usuario = usuarioService.login(request);
             return ResponseEntity.ok(usuario);
@@ -53,7 +55,7 @@ public class UsuariosController {
     }
     
     @PutMapping("/settings/{email:.+}")
-    public ResponseEntity<?> putUserSettings(@PathVariable("email") String email, @RequestBody SettingsRequest settingsRequest) {
+    public ResponseEntity<?> putUserSettings(@PathVariable("email") String email, @RequestBody SettingsRequestDTO settingsRequest) {
         try{            
             return ResponseEntity.ok(usuarioService.putUserSettings(email, settingsRequest));
         }catch(Exception e){
@@ -61,7 +63,7 @@ public class UsuariosController {
         }
     }
 
-    @DeleteMapping("/remove/{email:.+}")
+    @DeleteMapping("/{email:.+}")
     public ResponseEntity<?> deleteUser(@PathVariable("email") String email) {
         try{
             usuarioService.deleteUser(email);

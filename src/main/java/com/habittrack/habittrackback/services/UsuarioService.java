@@ -1,9 +1,9 @@
 package com.habittrack.habittrackback.services;
 
-import com.habittrack.habittrackback.dtos.LoginRequest;
-import com.habittrack.habittrackback.dtos.RegisterRequest;
-import com.habittrack.habittrackback.dtos.SettingsRequest;
-import com.habittrack.habittrackback.dtos.UserSettings;
+import com.habittrack.habittrackback.dtos.LoginRequestDTO;
+import com.habittrack.habittrackback.dtos.RegisterRequestDTO;
+import com.habittrack.habittrackback.dtos.SettingsRequestDTO;
+import com.habittrack.habittrackback.dtos.UserSettingsDTO;
 import com.habittrack.habittrackback.models.Usuario;
 import com.habittrack.habittrackback.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Usuario register(RegisterRequest request) {
+    public Usuario register(RegisterRequestDTO request) {
         if (usuarioRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already registered");
         }
@@ -34,7 +34,7 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
-    public Usuario login(LoginRequest request) {
+    public Usuario login(LoginRequestDTO request) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(request.getEmail());
         if (usuarioOpt.isEmpty() || !passwordEncoder.matches(request.getPassword(), usuarioOpt.get().getPassword())) {
             throw new RuntimeException("Invalid email or password");
@@ -42,16 +42,16 @@ public class UsuarioService {
         return usuarioOpt.get();
     }
 
-    public UserSettings getUserSettings(String email) {
+    public UserSettingsDTO getUserSettings(String email) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
         if (usuarioOpt.isEmpty()) {
             throw new RuntimeException("User not found");
         }
         Usuario usuario = usuarioOpt.get();
-        return new UserSettings(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.getBiografia(), usuario.getFotoPerfil(), usuario.getUsername());
+        return new UserSettingsDTO(usuario.getId(), usuario.getNombre(), usuario.getEmail(), usuario.getBiografia(), usuario.getFotoPerfil(), usuario.getUsername());
     }
 
-    public SettingsRequest putUserSettings(String email, SettingsRequest settingsRequest) {
+    public SettingsRequestDTO putUserSettings(String email, SettingsRequestDTO settingsRequest) {
         Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
         if (usuarioOpt.isEmpty()) {
             throw new RuntimeException("User not found");
@@ -62,7 +62,7 @@ public class UsuarioService {
         usuario.setFotoPerfil(settingsRequest.getFotoPerfil());
         usuario.setUsername(settingsRequest.getUsername());
         usuarioRepository.save(usuario);
-        return new SettingsRequest(usuario.getNombre(), usuario.getBiografia(), usuario.getFotoPerfil(), usuario.getUsername());
+        return new SettingsRequestDTO(usuario.getNombre(), usuario.getBiografia(), usuario.getFotoPerfil(), usuario.getUsername());
     }
 
     public void deleteUser(String email) {

@@ -26,22 +26,22 @@ public class HabitosController {
     
     private final HabitoService habitoService;
 
-    @PostMapping("/create/{email}")
+    @PostMapping("/{email}")
     public ResponseEntity<Habito> crearHabito(@RequestBody Habito habito, @PathVariable("email") String email) {
         return ResponseEntity.ok(habitoService.crearHabito(habito, email));
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<List<Habito>> getHabitsByUser(@PathVariable("email") String email) {
         return ResponseEntity.ok(habitoService.getHabitsByUser(email));
     }
 
-    @PutMapping("/complete/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Habito> completarHabito(@PathVariable("id") Long id) {
         return ResponseEntity.ok(habitoService.completarHabito(id));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Habito> eliminarHabito(@PathVariable("id") Long id) {
         return ResponseEntity.ok(habitoService.eliminarHabito(id));
     }
