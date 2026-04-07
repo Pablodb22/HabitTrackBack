@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.habittrack.habittrackback.services.HabitoService;
 import com.habittrack.habittrackback.models.Habito;
-
+import com.habittrack.habittrackback.models.HabitoCompletado;
+import com.habittrack.habittrackback.services.HabitoService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -34,6 +34,11 @@ public class HabitosController {
     @GetMapping("/{email}")
     public ResponseEntity<List<Habito>> getHabitsByUser(@PathVariable("email") String email) {
         return ResponseEntity.ok(habitoService.getHabitsByUser(email));
+    }
+
+    @GetMapping("/{email}/weekly")
+    public ResponseEntity<List<HabitoCompletado>> getWeeklyCompletions(@PathVariable("email") String email) {
+        return ResponseEntity.ok(habitoService.getWeeklyCompletions(email));
     }
 
     @PutMapping("/{id}")

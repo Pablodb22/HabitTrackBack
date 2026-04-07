@@ -1,14 +1,12 @@
 package com.habittrack.habittrackback.models;
 
-
+import java.time.LocalDate;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
 
 @Entity
 @Table(name = "habito")
@@ -37,6 +35,9 @@ public class Habito {
 
     private boolean completo;
     
-   
+    private LocalDate lastCompletedDate;
     
+    private Integer currentStreak;
+    
+    private Integer bestStreak;
 }
