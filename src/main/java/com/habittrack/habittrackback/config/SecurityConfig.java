@@ -20,11 +20,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(org.springframework.security.config.Customizer.withDefaults()) // Activar CORS en Spring Security
+                .cors(org.springframework.security.config.Customizer.withDefaults()) 
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/users/**").permitAll()
                         .requestMatchers("/api/habits/**").permitAll()
+                        .requestMatchers("/api/chatbot/**").permitAll()
                         .anyRequest().authenticated());
 
         return http.build();
